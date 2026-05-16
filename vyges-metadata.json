@@ -1,0 +1,718 @@
+{
+  "$schema": "https://vyges.com/schema/v1/vyges-metadata.schema.json",
+  "x-version": "1.0.0",
+  "name": "vyges/programmable-adc",
+  "version": "1.0.0",
+  "description": "A high-performance, ultra-low-power programmable ADC with configurable resolution (12, 14, 16 bits), 3 simultaneous differential channels, and integrated PGA (gains 1,2,3,4). Achieves 5MSPS conversion rate with excellent linearity (DNL < 0.5 LSB, INL < 1 LSB). Supports multiple PDKs: 40nm ultra-low-power technology (2.8V analog supply) and Sky130 open-source PDK (5.0V analog supply, 1.8V digital).",
+  "license": "Apache-2.0",
+  "template": "vyges-ip-template@1.0.0",
+  "target": [
+    "asic"
+  ],
+  "design_type": [
+    "analog",
+    "mixed-signal"
+  ],
+  "maturity": "prototype",
+  "created": "2025-08-15T00:00:00Z",
+  "updated": "2025-08-15T00:00:00Z",
+  "source": {
+    "type": "git",
+    "url": "https://github.com/vyges/programmable-adc",
+    "commit": "main",
+    "private": false,
+    "containsEncryptedPayload": false,
+    "indexing": true
+  },
+  "maintainers": [
+    {
+      "name": "Vyges Development Team",
+      "email": "team@vyges.com",
+      "github": "vyges"
+    }
+  ],
+  "branding": {
+    "provider": "Vyges",
+    "logo": "https://vyges.com/images/logo.svg",
+    "website": "https://vyges.com/catalog/programmable-adc",
+    "usage": "Use of the logo is permitted for attribution or compatibility references only."
+  },
+  "interfaces": [
+    {
+      "type": "bus",
+      "direction": "input",
+      "protocol": "APB",
+      "width": 32,
+      "signals": [
+        {
+          "name": "PCLK",
+          "direction": "input",
+          "type": "clock",
+          "width": 1,
+          "description": "APB clock signal (50 MHz)"
+        },
+        {
+          "name": "PRESETn",
+          "direction": "input",
+          "type": "reset",
+          "width": 1,
+          "active_level": "low",
+          "description": "APB reset signal"
+        },
+        {
+          "name": "PADDR",
+          "direction": "input",
+          "width": 8,
+          "type": "data",
+          "description": "APB address bus"
+        },
+        {
+          "name": "PWDATA",
+          "direction": "input",
+          "width": 32,
+          "type": "data",
+          "description": "APB write data"
+        },
+        {
+          "name": "PRDATA",
+          "direction": "output",
+          "width": 32,
+          "type": "data",
+          "description": "APB read data"
+        },
+        {
+          "name": "PENABLE",
+          "direction": "input",
+          "type": "control",
+          "width": 1,
+          "description": "APB enable signal"
+        },
+        {
+          "name": "PWRITE",
+          "direction": "input",
+          "type": "control",
+          "width": 1,
+          "description": "APB write enable"
+        },
+        {
+          "name": "PSEL",
+          "direction": "input",
+          "type": "control",
+          "width": 1,
+          "description": "APB select signal"
+        },
+        {
+          "name": "PREADY",
+          "direction": "output",
+          "type": "control",
+          "width": 1,
+          "description": "APB ready signal"
+        }
+      ]
+    },
+    {
+      "type": "analog",
+      "direction": "input",
+      "protocol": "Analog",
+      "signals": [
+        {
+          "name": "VIN0P",
+          "direction": "input",
+          "type": "analog",
+          "width": 1,
+          "voltage_range": "0V to 2.8V (40nm) / 0V to 5.0V (sky130)",
+          "description": "Channel 0 positive input (voltage range depends on PDK)"
+        },
+        {
+          "name": "VIN0N",
+          "direction": "input",
+          "type": "analog",
+          "width": 1,
+          "voltage_range": "0V to 2.8V (40nm) / 0V to 5.0V (sky130)",
+          "description": "Channel 0 negative input (voltage range depends on PDK)"
+        },
+        {
+          "name": "VIN1P",
+          "direction": "input",
+          "type": "analog",
+          "width": 1,
+          "voltage_range": "0V to 2.8V (40nm) / 0V to 5.0V (sky130)",
+          "description": "Channel 1 positive input (voltage range depends on PDK)"
+        },
+        {
+          "name": "VIN1N",
+          "direction": "input",
+          "type": "analog",
+          "width": 1,
+          "voltage_range": "0V to 2.8V (40nm) / 0V to 5.0V (sky130)",
+          "description": "Channel 1 negative input (voltage range depends on PDK)"
+        },
+        {
+          "name": "VIN2P",
+          "direction": "input",
+          "type": "analog",
+          "width": 1,
+          "voltage_range": "0V to 2.8V (40nm) / 0V to 5.0V (sky130)",
+          "description": "Channel 2 positive input (voltage range depends on PDK)"
+        },
+        {
+          "name": "VIN2N",
+          "direction": "input",
+          "type": "analog",
+          "width": 1,
+          "voltage_range": "0V to 2.8V (40nm) / 0V to 5.0V (sky130)",
+          "description": "Channel 2 negative input (voltage range depends on PDK)"
+        },
+        {
+          "name": "VREF",
+          "direction": "input",
+          "type": "analog",
+          "width": 1,
+          "voltage_range": "2.8V ±1% (40nm) / 5.0V ±1% (sky130)",
+          "description": "Reference voltage (depends on PDK)"
+        },
+        {
+          "name": "VCM",
+          "direction": "input",
+          "type": "analog",
+          "width": 1,
+          "voltage_range": "1.4V ±2% (40nm) / 2.5V ±2% (sky130)",
+          "description": "Common mode voltage (depends on PDK)"
+        }
+      ]
+    },
+    {
+      "type": "power",
+      "direction": "input",
+      "protocol": "Power",
+      "signals": [
+        {
+          "name": "VDDA",
+          "direction": "input",
+          "type": "power",
+          "width": 1,
+          "voltage": "2.8V ±5% (40nm) / 5.0V ±5% (sky130)",
+          "description": "Analog supply voltage (depends on PDK)"
+        },
+        {
+          "name": "VSSA",
+          "direction": "input",
+          "type": "power",
+          "width": 1,
+          "voltage": "0V",
+          "description": "Analog ground"
+        },
+        {
+          "name": "VDDD",
+          "direction": "input",
+          "type": "power",
+          "width": 1,
+          "voltage": "1.8V ±5%",
+          "description": "Digital supply voltage (same for all PDKs)",
+          "optional": true
+        },
+        {
+          "name": "VSSD",
+          "direction": "input",
+          "type": "power",
+          "width": 1,
+          "voltage": "0V",
+          "description": "Digital ground",
+          "optional": true
+        }
+      ]
+    },
+    {
+      "type": "interrupt",
+      "direction": "output",
+      "protocol": "Standard",
+      "signals": [
+        {
+          "name": "adc_irq",
+          "direction": "output",
+          "type": "interrupt",
+          "width": 1,
+          "description": "ADC interrupt output"
+        }
+      ]
+    },
+    {
+      "type": "status",
+      "direction": "output",
+      "protocol": "Status",
+      "signals": [
+        {
+          "name": "busy_o",
+          "direction": "output",
+          "type": "status",
+          "width": 1,
+          "description": "Conversion busy indicator"
+        },
+        {
+          "name": "valid_o",
+          "direction": "output",
+          "type": "status",
+          "width": 1,
+          "description": "Data valid indicator"
+        },
+        {
+          "name": "data_o",
+          "direction": "output",
+          "width": 16,
+          "type": "data",
+          "description": "ADC conversion result"
+        },
+        {
+          "name": "channel_o",
+          "direction": "output",
+          "width": 2,
+          "type": "status",
+          "description": "Current channel number"
+        }
+      ]
+    }
+  ],
+  "parameters": [
+    {
+      "name": "ADC_RESOLUTION",
+      "type": "string",
+      "default": "16",
+      "description": "ADC resolution in bits",
+      "options": [
+        "12",
+        "14",
+        "16"
+      ],
+      "units": "bits",
+      "required": false
+    },
+    {
+      "name": "PGA_GAIN",
+      "type": "string",
+      "default": "1",
+      "description": "Programmable Gain Amplifier gain setting",
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "units": "V/V",
+      "required": false
+    },
+    {
+      "name": "CONVERSION_RATE",
+      "type": "int",
+      "default": 5000000,
+      "description": "ADC conversion rate",
+      "range": {
+        "min": 1000000,
+        "max": 5000000
+      },
+      "units": "SPS",
+      "required": false
+    },
+    {
+      "name": "INPUT_BANDWIDTH",
+      "type": "int",
+      "default": 1000000,
+      "description": "Input signal bandwidth",
+      "range": {
+        "min": 100000,
+        "max": 2000000
+      },
+      "units": "Hz",
+      "required": false
+    },
+    {
+      "name": "SUPPLY_VOLTAGE",
+      "type": "real",
+      "default": 2.8,
+      "description": "Analog supply voltage",
+      "range": {
+        "min": 2.5,
+        "max": 3.0
+      },
+      "units": "V",
+      "required": false
+    },
+    {
+      "name": "PDK_SELECT",
+      "type": "string",
+      "default": "40nm_ulp",
+      "description": "PDK selection for implementation",
+      "options": [
+        "40nm_ulp",
+        "cadence_40nm_ulp",
+        "sky130"
+      ],
+      "required": false
+    }
+  ],
+  "categories": {
+    "primary": "analog",
+    "secondary": ["converter", "adc", "mixed-signal"],
+    "tags": ["adc", "sar", "programmable", "pga", "differential", "ultra-low-power", "40nm", "130nm", "sky130", "5msps", "16bit", "cadence-pdk", "sky130-pdk", "behavioral-models", "spectre-simulation", "virtuoso-layout", "magic-layout", "xschem", "ngspice", "lvs-verification", "open-source-pdk"]
+  },
+  "community": {
+    "issues": "https://github.com/vyges/programmable-adc/issues",
+    "contributions": "https://github.com/vyges/programmable-adc/pulls",
+    "chat": "https://github.com/vyges/programmable-adc/discussions"
+  },
+  "test": {
+    "coverage": true,
+    "testbenches": [
+      "systemverilog",
+      "hspice",
+      "cadence_behavioral"
+    ],
+    "simulators": [
+      "vcs",
+      "questa",
+      "hspice",
+      "ams_designer",
+      "spectre",
+      "virtuoso",
+      "calibre",
+      "verilator",
+      "icarus",
+      "ngspice",
+      "xyce"
+    ],
+    "status": "passing",
+    "test_requirements": [
+      "DNL/INL measurement with histogram method",
+      "SNR/SFDR measurement with FFT analysis",
+      "PGA gain accuracy verification",
+      "Power consumption measurement",
+      "Temperature sensitivity analysis",
+      "Cadence PDK behavioral model verification",
+      "Circuit-level performance validation",
+      "Calibration mechanism testing",
+      "Multi-simulator compatibility verification",
+      "Spectre simulation with device models and process corners",
+      "Virtuoso schematic capture and layout verification",
+      "LVS verification with Calibre integration",
+      "Sky130 PDK layout with Magic",
+      "Sky130 schematic capture with Xschem",
+      "Sky130 simulation with ngspice",
+      "Sky130 LVS verification with Netgen",
+      "Open-source toolchain compatibility (Magic, Xschem, ngspice, Netgen)"
+    ]
+  },
+  "flows": {
+    "hspice": {
+      "status": "verified",
+      "description": "Transistor-level simulation for analog blocks"
+    },
+    "ams_designer": {
+      "status": "verified",
+      "description": "Mixed-signal simulation for system verification"
+    },
+    "vcs": {
+      "status": "verified",
+      "description": "Digital RTL simulation"
+    },
+    "questa": {
+      "status": "verified",
+      "description": "Siemens Questa/ModelSim SystemVerilog simulation with GUI and command-line support"
+    },
+    "design_compiler": {
+      "status": "tested",
+      "description": "Digital synthesis flow"
+    },
+    "ic_compiler": {
+      "status": "tested",
+      "description": "Layout generation"
+    },
+    "cadence_pdk": {
+      "status": "verified",
+      "description": "Cadence PDK-specific circuit implementation with behavioral models, Spectre simulation, and Virtuoso layout support"
+    },
+    "spectre": {
+      "status": "verified",
+      "description": "Cadence Spectre analog circuit simulation with device models and process corners"
+    },
+    "virtuoso": {
+      "status": "verified",
+      "description": "Virtuoso schematic capture and layout export with LVS verification"
+    },
+    "verilator": {
+      "status": "verified",
+      "description": "Fast SystemVerilog simulation with coverage analysis"
+    },
+    "icarus": {
+      "status": "verified",
+      "description": "Open-source SystemVerilog simulation"
+    },
+    "sky130": {
+      "status": "supported",
+      "description": "Sky130 PDK support with Magic layout, Xschem schematics, ngspice simulation, and open-source toolchain"
+    },
+    "magic": {
+      "status": "supported",
+      "description": "Magic layout editor for Sky130 PDK"
+    },
+    "xschem": {
+      "status": "supported",
+      "description": "Xschem schematic editor for analog circuit design"
+    },
+    "ngspice": {
+      "status": "supported",
+      "description": "ngspice circuit simulation for Sky130 PDK"
+    },
+    "netgen": {
+      "status": "supported",
+      "description": "Netgen LVS (Layout vs Schematic) verification for Sky130"
+    },
+    "openlane": {
+      "status": "supported",
+      "description": "OpenLane digital flow integration for Sky130 (digital portions)"
+    }
+  },
+  "asic": {
+    "flavor": "analog",
+    "pdks": [
+      "40nm_ulp",
+      "cadence_40nm_ulp",
+      "sky130"
+    ],
+    "pdk_configs": {
+      "40nm_ulp": {
+        "technology": "40nm Ultra Low Power",
+        "supply_voltage": "2.8V",
+        "analog_supply": "2.8V",
+        "digital_supply": "1.8V",
+        "reference_voltage": "2.8V",
+        "common_mode": "1.4V",
+        "synthesis_tool": "design_compiler",
+        "layout_tool": "ic_compiler",
+        "tools": ["hspice", "ams_designer", "vcs", "design_compiler", "ic_compiler", "spectre", "virtuoso", "calibre"]
+      },
+      "cadence_40nm_ulp": {
+        "technology": "40nm Ultra Low Power (Cadence)",
+        "supply_voltage": "2.8V",
+        "analog_supply": "2.8V",
+        "digital_supply": "1.8V",
+        "reference_voltage": "2.8V",
+        "common_mode": "1.4V",
+        "synthesis_tool": "design_compiler",
+        "layout_tool": "ic_compiler",
+        "tools": ["spectre", "virtuoso", "calibre", "hspice", "ams_designer", "vcs"],
+        "circuit_implementation": {
+          "pga": "rtl/cadence_pdk/pga_circuit_cadence.sv",
+          "sar_dac": "rtl/cadence_pdk/sar_dac_circuit_cadence.sv",
+          "comparator": "rtl/cadence_pdk/comparator_circuit_cadence.sv",
+          "sample_hold": "rtl/cadence_pdk/sample_hold_circuit_cadence.sv",
+          "testbench": "rtl/cadence_pdk/tb_cadence_circuit_blocks.sv",
+          "build_system": "rtl/cadence_pdk/Makefile",
+          "spectre_netlist": "rtl/cadence_pdk/programmable_adc_spectre.sp",
+          "lvs_netlist": "rtl/cadence_pdk/programmable_adc_lvs.sp",
+          "device_models": "rtl/cadence_pdk/models.scs",
+          "process_corners": "rtl/cadence_pdk/corners.scs",
+          "virtuoso_schematic": "rtl/cadence_pdk/virtuoso_schematic.cds",
+          "lvs_setup": "rtl/cadence_pdk/lvs_setup.tcl"
+        }
+      },
+      "sky130": {
+        "technology": "130nm SkyWater",
+        "supply_voltage": "1.8V",
+        "analog_supply": "5.0V",
+        "digital_supply": "1.8V",
+        "reference_voltage": "5.0V",
+        "common_mode": "2.5V",
+        "synthesis_tool": "yosys",
+        "layout_tool": "magic",
+        "tools": ["magic", "netgen", "xschem", "ngspice", "klayout", "openlane", "openroad", "verilator"],
+        "transistor_type": "5.0V",
+        "description": "Sky130 PDK with 5.0V high-voltage transistors for analog circuits, 1.8V for digital",
+        "circuit_implementation": {
+          "pga": "analog/xschem/pga_circuit.sch",
+          "sar_dac": "analog/xschem/sar_dac_circuit.sch",
+          "comparator": "analog/xschem/comparator_circuit.sch",
+          "sample_hold": "analog/xschem/sample_hold_circuit.sch",
+          "layout": "analog/magic/",
+          "netlist": "analog/netlist/",
+          "gds": "analog/gds/",
+          "lef": "analog/lef/",
+          "lvs": "layout/lvs/",
+          "drc": "layout/drc/"
+        }
+      }
+    },
+    "synthesis_tool": "design_compiler",
+    "layout_tool": "ic_compiler",
+    "clock_freq_mhz": 50,
+    "constraints": [
+      "timing.sdc"
+    ],
+    "tools": [
+      "hspice",
+      "ams_designer",
+      "vcs",
+      "questa",
+      "design_compiler",
+      "ic_compiler",
+      "spectre",
+      "virtuoso",
+      "calibre",
+      "magic",
+      "netgen",
+      "xschem",
+      "ngspice",
+      "klayout",
+      "openlane"
+    ],
+    "technology": "40nm Ultra Low Power",
+    "supply_voltage": "2.8V",
+    "temperature_range": {
+      "min": -40,
+      "max": 125,
+      "units": "°C"
+    },
+    "circuit_implementation": {
+      "pga": "rtl/cadence_pdk/pga_circuit_cadence.sv",
+      "sar_dac": "rtl/cadence_pdk/sar_dac_circuit_cadence.sv",
+      "comparator": "rtl/cadence_pdk/comparator_circuit_cadence.sv",
+      "sample_hold": "rtl/cadence_pdk/sample_hold_circuit_cadence.sv",
+      "testbench": "rtl/cadence_pdk/tb_cadence_circuit_blocks.sv",
+      "build_system": "rtl/cadence_pdk/Makefile",
+      "spectre_netlist": "rtl/cadence_pdk/programmable_adc_spectre.sp",
+      "lvs_netlist": "rtl/cadence_pdk/programmable_adc_lvs.sp",
+      "device_models": "rtl/cadence_pdk/models.scs",
+      "process_corners": "rtl/cadence_pdk/corners.scs",
+      "virtuoso_schematic": "rtl/cadence_pdk/virtuoso_schematic.cds",
+      "lvs_setup": "rtl/cadence_pdk/lvs_setup.tcl"
+    }
+  },
+  "fpga": {
+    "toolchain": "not_applicable",
+    "description": "Analog/mixed-signal design - FPGA not applicable"
+  },
+  "integration": {
+    "examples": [
+      {
+        "target": "simulation",
+        "wrapper": "integration/adc_wrapper.sv",
+        "tb": "integration/adc_tb.sv",
+        "description": "Mixed-signal simulation wrapper"
+      },
+      {
+        "target": "asic",
+        "wrapper": "integration/adc_asic_wrapper.sv",
+        "tb": "integration/adc_asic_tb.sv",
+        "description": "ASIC integration wrapper"
+      },
+      {
+        "target": "cadence_pdk",
+        "wrapper": "rtl/cadence_pdk/",
+        "tb": "rtl/cadence_pdk/tb_cadence_circuit_blocks.sv",
+        "description": "Cadence PDK circuit implementation with behavioral models, Spectre simulation, and Virtuoso layout"
+      },
+      {
+        "target": "sky130",
+        "wrapper": "analog/xschem/",
+        "tb": "analog/xschem/tb_adc_sky130.sch",
+        "description": "Sky130 PDK implementation with Xschem schematics, Magic layout, ngspice simulation, and Netgen LVS"
+      }
+    ],
+    "guidelines": [
+      "Separate analog and digital power domains",
+      "Use shielded routing for analog signals",
+      "Implement proper grounding strategy",
+      "Follow thermal management guidelines",
+      "Use Cadence PDK behavioral models for realistic simulation",
+      "Implement proper calibration mechanisms",
+      "Monitor circuit-level performance metrics",
+      "Use Spectre simulation with device models and process corners",
+      "Perform LVS verification with Calibre integration",
+      "Follow Virtuoso schematic-to-layout flow",
+      "For Sky130: Use 5.0V high-voltage transistors for analog circuits",
+      "For Sky130: Use 1.8V standard transistors for digital circuits",
+      "For Sky130: Use Xschem for schematic capture, Magic for layout",
+      "For Sky130: Use ngspice for circuit simulation with Sky130 device models",
+      "For Sky130: Use Netgen for LVS verification",
+      "Separate analog (5.0V) and digital (1.8V) power domains in Sky130"
+    ]
+  },
+  "automation": {
+    "automation_level": "enhanced",
+    "minimal_required": [
+      "name",
+      "version",
+      "license",
+      "interfaces",
+      "template",
+      "target",
+      "design_type",
+      "maturity",
+      "description",
+      "source",
+      "asic",
+      "test",
+      "flows"
+    ],
+    "recommended_for_automation": [
+      "parameters",
+      "performance",
+      "integration",
+      "documentation"
+    ],
+    "blocking_issues": []
+  },
+  "meta": {
+    "template": {
+      "generator": "vyges-cli",
+      "init_tool": "vyges-cli",
+      "template_version": "1.0.0",
+      "generated_at": "2025-08-15T00:00:00Z"
+    },
+    "generated_by": "vyges-cli",
+    "schema": {
+      "version": "1.0.0",
+      "compatible_versions": [
+        "1.0.0",
+        "1.1.0"
+      ],
+      "generated_with": "vyges-cli"
+    }
+  },
+  "documentation": {
+    "design_spec": "docs/programmable_adc_design_spec.md",
+    "user_manual": "docs/user_manual.md",
+    "integration_guide": "docs/integration_guide.md",
+    "test_report": "docs/test_report.md",
+    "circuit_implementation": "rtl/cadence_pdk/README.md"
+  },
+  "reliability": {
+    "temperature_range": {
+      "min": -40,
+      "max": 125,
+      "units": "°C"
+    },
+    "lifetime": {
+      "value": 10,
+      "units": "years",
+      "description": "Expected lifetime at 125°C"
+    },
+    "mtbf": {
+      "value": 1000000,
+      "units": "hours",
+      "description": "Mean time between failures"
+    }
+  },
+  "packaging": {
+    "package_type": "QFN48",
+    "pin_count": 48,
+    "thermal_resistance": {
+      "value": 25,
+      "units": "°C/W",
+      "description": "Junction-to-ambient thermal resistance"
+    },
+    "power_dissipation": {
+      "value": 10,
+      "units": "mW",
+      "description": "Maximum power dissipation"
+    }
+  }
+}
